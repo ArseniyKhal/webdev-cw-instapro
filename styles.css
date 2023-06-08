@@ -80,11 +80,17 @@
 
 .post-likes {
 	display: flex;
+	justify-content: space-between;
+}
+
+.post-likes-body {
+	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
 
-.like-button {
+.like-button,
+.delete-button {
 	border: none;
 	background-color: transparent;
 	padding: 8px;

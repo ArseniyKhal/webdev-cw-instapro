@@ -1,10 +1,9 @@
-import { USER_POSTS_PAGE } from "../routes.js";
+import { USER_POSTS_PAGE, POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, getToken } from "../index.js";
+import { deletePosts } from "../api.js";
 
 export function renderPostsPageComponent({ appEl }) {
-	console.log("Актуальный список постов:", posts);
-
 	/**
 	 * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
 	 * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
@@ -21,10 +20,13 @@ export function renderPostsPageComponent({ appEl }) {
 			<img class="post-image" src="${post.imageUrl}">
 		</div>
 		<div class="post-likes">
-			<button data-post-id="${post.id}" class="like-button">
-				<img src="./assets/images/like-active.svg">
-			</button>
-			<p class="post-likes-text">Нравится: <strong>${post.likes.length}</strong></p>
+			<div class="post-likes-body">
+				<button data-post-id="${post.id}" class="like-button">
+					<img src="./assets/images/like-active.svg">
+				</button>
+				<p class="post-likes-text">Нравится: <strong>${post.likes.length}</strong></p>
+			</div>
+			<button data-post-id="${post.id}" class="delete-button">Удалить</button>
 		</div>
 		<p class="post-text"><span class="user-name">${post.user.name} </span>${post.description}</p>
 		<p class="post-date">19 минут назад</p>
@@ -51,5 +53,19 @@ export function renderPostsPageComponent({ appEl }) {
 				userId: userEl.dataset.userId,
 			});
 		});
+	}
+
+
+	// Удаление поста
+	const deleteButtonsElements = appEl.querySelectorAll(".delete-button");
+	for (const deleteButtonElement of deleteButtonsElements) {
+		deleteButtonElement.addEventListener('click', (event) => {
+			event.stopPropagation();
+			const id = deleteButtonElement.dataset.postId;
+			deletePosts({ token: getToken(), id })
+				.then(() => {
+					return goToPage(POSTS_PAGE);
+				})
+		})
 	}
 }

@@ -4,7 +4,7 @@ const personalKey = "ArsHal";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
-// Получения списка постов
+// Получение списка постов
 export function getPosts({ token }) {
 	return fetch(postsHost, {
 		method: "GET",
@@ -23,6 +23,8 @@ export function getPosts({ token }) {
 		});
 }
 
+
+
 // Написание(отправка) поста
 export function postPosts({ token, description, imageUrl }) {
 	return fetch(postsHost, {
@@ -35,14 +37,21 @@ export function postPosts({ token, description, imageUrl }) {
 			Authorization: token,
 		},
 	})
-		// сделать выпадашку об удачной отправке поста
-		.then((response) => {
-			console.log(response);
-			return response.json();
-		})
-	// .then((data) => {
-	// 	return data.posts;
-	// });
+	// сделать выпадашку об удачной отправке поста
+	// .then((response) => {
+	// 	console.log(response);
+	// 	return response.json();
+	// })
+}
+
+// Удаление поста
+export function deletePosts({ token, id }) {
+	return fetch(postsHost + "/" + id, {
+		method: "DELETE",
+		headers: {
+			Authorization: token,
+		},
+	})
 }
 
 // Регистрация usera
