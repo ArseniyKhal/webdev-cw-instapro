@@ -103,6 +103,12 @@ p {
 	background-color: #e8e8e8;
 }
 
+.text-input {
+	height: 100px;
+	resize: none;
+	font-family: StratosSkyeng;
+}
+
 .input .-error {
 	background-color: #fff;
 }

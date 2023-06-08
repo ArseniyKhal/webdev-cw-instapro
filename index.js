@@ -15,6 +15,7 @@ import {
 	removeUserFromLocalStorage,
 	saveUserToLocalStorage,
 } from "./helpers.js";
+import { postPosts } from "./api.js";
 
 export let user = getUserFromLocalStorage();
 export let page = null;
@@ -22,7 +23,6 @@ export let posts = [];
 
 const getToken = () => {
 	const token = user ? `Bearer ${user.token}` : undefined;
-	// const token = `Bearer 78cocs80asc06g6c68645g5k5o6g37k3cw3d03bo3ck3c03c4`;
 	return token;
 };
 
@@ -111,8 +111,8 @@ const renderApp = () => {
 		return renderAddPostPageComponent({
 			appEl,
 			onAddPostClick({ description, imageUrl }) {
-				// TODO: реализовать добавление поста в API
 				console.log("Добавляю пост...", { description, imageUrl });
+				postPosts({ token: getToken(), description, imageUrl });
 				goToPage(POSTS_PAGE);
 			},
 		});
