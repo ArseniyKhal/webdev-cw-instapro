@@ -1,6 +1,6 @@
 import { USER_POSTS_PAGE, POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken } from "../index.js";
+import { posts, goToPage, getToken, user } from "../index.js";
 import { deletePosts, likePosts, dislikePosts } from "../api.js";
 
 export function renderPostsPageComponent({ appEl, userPosts }) {
@@ -29,14 +29,12 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 					</button>
 				<p class="post-likes-text">Нравится: <strong>${post.likes.length}</strong></p>
 			</div>
-			<button data-post-id="${post.id}" class="delete-button">Удалить</button>
+			${post.user.id === user._id ? '<button data-post-id="${post.id}" class="delete-button">Удалить</button>' : ''}
 		</div>
 		<p class="post-text"><span class="user-name">${post.user.name} </span>${post.description}</p>
 		<p class="post-date">19 минут назад</p>
 	</li>`
 	}).join("");
-
-
 
 	const appHtml = `
 	<div div class="page-container">

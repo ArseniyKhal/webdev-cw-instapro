@@ -16,6 +16,11 @@ import {
 	saveUserToLocalStorage,
 } from "./helpers.js";
 
+// СПИСОК БАГОВ:
+// При запросе API списка постов конкретного пользователя, не отображается параметр isLiked
+// не сделан перерендер только лайка. Обновляется вся страница с переходом на ленту постов
+// 
+
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
