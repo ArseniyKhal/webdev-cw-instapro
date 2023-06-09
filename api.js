@@ -23,7 +23,21 @@ export function getPosts({ token }) {
 		});
 }
 
-
+// Получение списка постов конкретного пользователя
+export function getUserPosts({ id }) {
+	return fetch(postsHost + "/user-posts/" + id, {
+		method: "GET",
+	})
+		.then((response) => {
+			if (response.status === 401) {
+				throw new Error("Нет авторизации");
+			}
+			return response.json();
+		})
+		.then((data) => {
+			return data.posts;
+		});
+}
 
 // Написание(отправка) поста
 export function postPosts({ token, description, imageUrl }) {

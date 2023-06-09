@@ -3,7 +3,7 @@ import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, getToken } from "../index.js";
 import { deletePosts } from "../api.js";
 
-export function renderPostsPageComponent({ appEl }) {
+export function renderPostsPageComponent({ appEl, userPosts }) {
 	/**
 	 * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
 	 * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
@@ -11,8 +11,8 @@ export function renderPostsPageComponent({ appEl }) {
 
 	const postHtml = posts.map((post, index) => {
 		return `
-	<li class="post" data-index="${index}">
-		<div class="post-header" data-user-id="${post.user.id}">
+		<li class="post" data-index="${index}">
+		<div class="post-header" ${userPosts ? 'style="display: none"' : ''} data-user-id="${post.user.id}">
 			<img src="${post.user.imageUrl}" class="post-header__user-image">
 			<p class="post-header__user-name">${post.user.name}</p>
 		</div>
@@ -34,13 +34,16 @@ export function renderPostsPageComponent({ appEl }) {
 	}).join("");
 
 	const appHtml = `
-			<div class="page-container">
-				<div class="header-container"></div>
-				<ul class="posts">
-					${postHtml}
-				</ul>
-			</div>`;
-
+	<div div class="page-container">
+		<div class="header-container"></div>
+		<div class="post-header" ${userPosts ? '' : 'style="display: none"'}">
+			<img src="${posts[0].user.imageUrl}" class="post-header__user-image">
+			<p class="post-header__user-name"  style="font-size: 24px;">${posts[0].user.name}</p>
+		</div >
+		<ul class="posts">
+			${postHtml}
+		</ul>
+	</div> `;
 	appEl.innerHTML = appHtml;
 
 	renderHeaderComponent({
