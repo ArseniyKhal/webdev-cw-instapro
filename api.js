@@ -58,6 +58,26 @@ export function postPosts({ token, description, imageUrl }) {
 	// })
 }
 
+// Поставить лайк
+export function likePosts({ token, id }) {
+	return fetch(postsHost + "/" + id + "/like", {
+		method: "POST",
+		headers: {
+			Authorization: token,
+		},
+	})
+}
+
+// Убрать лайк
+export function dislikePosts({ token, id }) {
+	return fetch(postsHost + "/" + id + "/dislike", {
+		method: "POST",
+		headers: {
+			Authorization: token,
+		},
+	})
+}
+
 // Удаление поста
 export function deletePosts({ token, id }) {
 	return fetch(postsHost + "/" + id, {
