@@ -1,5 +1,7 @@
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
+import { goToPage, } from "../index.js";
+import { LOADING_PAGE } from "../routes.js";
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 	let imageUrl = "";
@@ -36,7 +38,14 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 		});
 
 		document.getElementById("add-button").addEventListener("click", () => {
-			const text = document.getElementById("text-input").value;
+			const text = document.getElementById("text-input").value
+				.replaceAll("&", "&amp;")
+				.replaceAll("<", "&lt;")
+				.replaceAll(">", "&gt;")
+				.replaceAll('"', "&quot;")
+				.replaceAll("QUOTE_BEGIN", "<div class='quote'>")
+				.replaceAll("QUOTE_END", "</div>")
+				.replaceAll("NEW_LINE", "<br>");
 
 			if (!imageUrl) {
 				alert("Не выбрана фотография");
@@ -46,6 +55,8 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 				alert("Опишите фотографию");
 				return;
 			}
+
+			goToPage(LOADING_PAGE);
 
 			onAddPostClick({
 				description: text,

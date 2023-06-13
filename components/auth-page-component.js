@@ -70,22 +70,24 @@ export function renderAuthPageComponent({ appEl, setUser }) {
 			setError("");
 
 			if (isLoginMode) {
-				const login = document.getElementById("login-input").value;
-				const password = document.getElementById("password-input").value;
+				const login = document.getElementById("login-input");
+				const password = document.getElementById("password-input");
 
-				if (!login) {
+				if (!login.value) {
+					login.classList.add("error");
 					alert("Введите логин");
 					return;
-				}
+				} else { login.classList.remove("error") }
 
-				if (!password) {
+				if (!password.value) {
+					password.classList.add("error");
 					alert("Введите пароль");
 					return;
-				}
+				} else { password.classList.remove("error") }
 
 				loginUser({
-					login: login,
-					password: password,
+					login: login.value,
+					password: password.value,
 				})
 					.then((user) => {
 						setUser(user.user);
@@ -95,22 +97,26 @@ export function renderAuthPageComponent({ appEl, setUser }) {
 						setError(error.message);
 					});
 			} else {
-				const login = document.getElementById("login-input").value;
-				const name = document.getElementById("name-input").value;
-				const password = document.getElementById("password-input").value;
-				if (!name) {
+				const login = document.getElementById("login-input");
+				const name = document.getElementById("name-input");
+				const password = document.getElementById("password-input");
+				if (!name.value) {
+					name.classList.add("error");
 					alert("Введите имя");
 					return;
-				}
-				if (!login) {
+				} else { name.classList.remove("error") }
+
+				if (!login.value) {
+					login.classList.add("error");
 					alert("Введите логин");
 					return;
-				}
+				} else { login.classList.remove("error") }
 
-				if (!password) {
+				if (!password.value) {
+					password.classList.add("error");
 					alert("Введите пароль");
 					return;
-				}
+				} else { password.classList.remove("error") }
 
 				if (!imageUrl) {
 					alert("Не выбрана фотография");
@@ -118,9 +124,9 @@ export function renderAuthPageComponent({ appEl, setUser }) {
 				}
 
 				registerUser({
-					login: login,
-					password: password,
-					name: name,
+					login: login.value,
+					password: password.value,
+					name: name.value,
 					imageUrl,
 				})
 					.then((user) => {

@@ -5,17 +5,11 @@ const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
 // Получение списка постов
-export function getPosts({ token }) {
+export function getPosts() {
 	return fetch(postsHost, {
 		method: "GET",
-		headers: {
-			Authorization: token,
-		},
 	})
 		.then((response) => {
-			if (response.status === 401) {
-				throw new Error("Нет авторизации");
-			}
 			return response.json();
 		})
 		.then((data) => {
@@ -29,9 +23,6 @@ export function getUserPosts({ id }) {
 		method: "GET",
 	})
 		.then((response) => {
-			if (response.status === 401) {
-				throw new Error("Нет авторизации");
-			}
 			return response.json();
 		})
 		.then((data) => {
@@ -51,11 +42,6 @@ export function postPosts({ token, description, imageUrl }) {
 			Authorization: token,
 		},
 	})
-	// сделать выпадашку об удачной отправке поста
-	// .then((response) => {
-	// 	console.log(response);
-	// 	return response.json();
-	// })
 }
 
 // Поставить лайк
@@ -65,7 +51,12 @@ export function likePosts({ token, id }) {
 		headers: {
 			Authorization: token,
 		},
-	})
+	}).then((response) => {
+		if (response.status === 401) {
+			throw new Error("Пожалуйста, авторизуйтесь");
+		}
+		return response.json();
+	});
 }
 
 // Убрать лайк
@@ -75,7 +66,12 @@ export function dislikePosts({ token, id }) {
 		headers: {
 			Authorization: token,
 		},
-	})
+	}).then((response) => {
+		if (response.status === 401) {
+			throw new Error("Пожалуйста, авторизуйтесь");
+		}
+		return response.json();
+	});
 }
 
 // Удаление поста

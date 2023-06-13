@@ -29,7 +29,8 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 					</button>
 				<p class="post-likes-text">Нравится <strong>${post.likes.length}${postLikesListHtml.length !== 0 ? ':' : ''}</strong>${postLikesListHtml}</p>
 			</div>
-			${user && post.user.id === user._id ? '<button data-post-id="${post.id}" class="delete-button">Удалить</button>' : ''}
+			${user && post.user.id === user._id ? `<button data-post-id="${post.id}" class="delete-button">Удалить</button>`
+				: ''}
 		</div>
 		<p class="post-text"><span class="user-name">${post.user.name} </span>${post.description}</p>
 		<p class="post-date">${formatDistanceToNow(new Date(post.createdAt))}</p>
@@ -39,13 +40,15 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 	const appHtml = `
 	<div div class="page-container">
 		<div class="header-container"></div>
-		<div class="post-header" ${userPosts ? '' : 'style="display: none"'}" >
-			<img src="${posts[0].user.imageUrl}" class="post-header__user-image">
-			<p class="post-header__user-name"  style="font-size: 24px;">${posts[0].user.name}</p>
-		</div >
-		<ul class="posts">
-			${postHtml}
-		</ul>
+		<div class="posts-container">
+			<div class="post-header" ${userPosts ? '' : 'style="display: none"'}" >
+				<img src="${posts[0].user.imageUrl}" class="post-header__user-image">
+				<p class="post-header__user-name"  style="font-size: 24px;">${posts[0].user.name}</p>
+			</div >
+			<ul class="posts">
+				${postHtml}
+			</ul>
+		</div>
 	</div> `;
 	appEl.innerHTML = appHtml;
 
@@ -54,7 +57,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 	});
 
 	// клик для перехода в посты юзера
-	for (let userEl of document.querySelectorAll(".post-header")) {
+	for (let userEl of appEl.querySelectorAll(".post-header")) {
 		userEl.addEventListener("click", () => {
 			goToPage(USER_POSTS_PAGE, {
 				userId: userEl.dataset.userId,
@@ -63,7 +66,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 	}
 
 	// клик для лайка/дизлайка
-	for (let likeEl of document.querySelectorAll(".like-button")) {
+	for (let likeEl of appEl.querySelectorAll(".like-button")) {
 		likeEl.addEventListener("click", (event) => {
 			event.stopPropagation();
 			if (posts[likeEl.dataset.index].isLiked) {
@@ -71,17 +74,23 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 					.then(() => {
 						return goToPage(POSTS_PAGE);
 					})
+					.catch(() => {
+						alert("Пожалуйста, авторизуйтесь");
+					});
 			} else {
 				likePosts({ token: getToken(), id: likeEl.dataset.postId })
 					.then(() => {
 						return goToPage(POSTS_PAGE);
 					})
+					.catch(() => {
+						alert("Пожалуйста, авторизуйтесь");
+					});
 			}
 		});
 	}
 
 	// Удаление поста
-	const deleteButtonsElements = appEl.querySelectorAll(".delete-button");
+	const deleteButtonsElements = document.querySelectorAll(".delete-button");
 	for (const deleteButtonElement of deleteButtonsElements) {
 		deleteButtonElement.addEventListener('click', (event) => {
 			event.stopPropagation();
@@ -92,4 +101,5 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 				})
 		})
 	}
+
 }

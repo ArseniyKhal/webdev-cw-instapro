@@ -17,9 +17,10 @@ import {
 } from "./helpers.js";
 
 // СПИСОК БАГОВ:
+// после лайка сердечко не менят цвет (с API всегда приходит false). хотя всё работало..
 // При запросе API списка постов конкретного пользователя, не отображается параметр isLiked
 // не сделан перерендер только лайка. Обновляется вся страница с переходом на ленту постов
-// 
+
 
 export let user = getUserFromLocalStorage();
 export let page = null;
@@ -59,7 +60,7 @@ export const goToPage = (newPage, data) => {
 			page = LOADING_PAGE;
 			renderApp();
 
-			return getPosts({ token: getToken() })
+			return getPosts()
 				.then((newPosts) => {
 					page = POSTS_PAGE;
 					posts = newPosts;
@@ -88,7 +89,6 @@ export const goToPage = (newPage, data) => {
 
 		page = newPage;
 		renderApp();
-
 		return;
 	}
 
@@ -97,6 +97,7 @@ export const goToPage = (newPage, data) => {
 
 export const renderApp = () => {
 	const appEl = document.getElementById("app");
+
 	if (page === LOADING_PAGE) {
 		return renderLoadingPageComponent({
 			appEl,
@@ -122,8 +123,10 @@ export const renderApp = () => {
 		return renderAddPostPageComponent({
 			appEl,
 			onAddPostClick({ description, imageUrl }) {
-				postPosts({ token: getToken(), description, imageUrl });
-				goToPage(POSTS_PAGE);
+				postPosts({ token: getToken(), description, imageUrl })
+					.then(() => {
+						return goToPage(POSTS_PAGE);
+					})
 			},
 		});
 	}
