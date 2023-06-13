@@ -5,10 +5,6 @@ import { deletePosts, likePosts, dislikePosts } from "../api.js";
 import { formatDistanceToNow } from "date-fns";
 
 export function renderPostsPageComponent({ appEl, userPosts }) {
-	/**
-	 * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-	 * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-	 */
 	const postHtml = posts.map((post, index) => {
 		const postLikesListHtml = post.likes.map((like) => {
 			return ` ${like.name} `
@@ -36,7 +32,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 			${user && post.user.id === user._id ? '<button data-post-id="${post.id}" class="delete-button">Удалить</button>' : ''}
 		</div>
 		<p class="post-text"><span class="user-name">${post.user.name} </span>${post.description}</p>
-		<p class="post-date">19 минут назад</p>
+		<p class="post-date">${formatDistanceToNow(new Date(post.createdAt))}</p>
 	</li>`
 	}).join("");
 
