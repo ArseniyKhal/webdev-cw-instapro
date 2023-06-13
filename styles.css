@@ -1,5 +1,6 @@
 .page-container {
 	padding: 0 20px;
+	position: relative;
 }
 
 .page-header {
@@ -18,6 +19,11 @@
 	font-size: 28px;
 	cursor: pointer;
 	width: 130px;
+	transition: transform 0.3s;
+}
+
+.logo:hover {
+	transform: scale(1.1);
 }
 
 .header-container {
@@ -34,6 +40,15 @@
 	line-height: 18px;
 	font-weight: 500;
 	cursor: pointer;
+	transition: transform 0.3s;
+}
+
+.header-button:hover {
+	transform: scale(1.1);
+}
+
+.posts-container {
+	margin-bottom: 20px;
 }
 
 .logout-button {
@@ -99,6 +114,11 @@
 	padding-left: 0px;
 	padding-bottom: 5px;
 	cursor: pointer;
+	transition: transform 0.3s;
+}
+
+.like-button:hover {
+	transform: scale(1.1);
 }
 
 .delete-button {
@@ -108,6 +128,11 @@
 	padding: 0px 12px;
 	cursor: pointer;
 	margin: 6px;
+	transition: transform 0.3s;
+}
+
+.delete-button:hover {
+	transform: scale(1.1);
 }
 
 .user-name {
@@ -158,6 +183,27 @@
 	background-image: url("data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 122.88 122.88'%3E%3Ctitle%3Eadd%3C/title%3E%3Cpath d='M61.44,0A61.46,61.46,0,1,1,18,18,61.25,61.25,0,0,1,61.44,0ZM88.6,56.82v9.24a4,4,0,0,1-4,4H70V84.62a4,4,0,0,1-4,4H56.82a4,4,0,0,1-4-4V70H38.26a4,4,0,0,1-4-4V56.82a4,4,0,0,1,4-4H52.84V38.26a4,4,0,0,1,4-4h9.24a4,4,0,0,1,4,4V52.84H84.62a4,4,0,0,1,4,4Zm8.83-31.37a50.92,50.92,0,1,0,14.9,36,50.78,50.78,0,0,0-14.9-36Z'/%3E%3C/svg%3E");
 	height: 30px;
 	width: 30px;
+	transition: transform 0.3s;
+}
+
+.add-post-sign:hover {
+	transform: scale(1.1);
+}
+
+.scrollToTop {
+	background-image: url('./img/up-arrow_icon-icons.com_71060.png');
+	background-size: contain;
+	height: 30px;
+	width: 30px;
+	position: fixed;
+	top: 90vh;
+	right: 50px;
+	cursor: pointer;
+	transition: transform 0.3s;
+}
+
+.scrollToTop:hover {
+	transform: scale(1.1);
 }
 
 .form {

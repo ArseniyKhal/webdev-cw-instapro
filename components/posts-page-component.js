@@ -38,19 +38,22 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 	}).join("");
 
 	const appHtml = `
-	<div div class="page-container">
+	<div class="page-container">
 		<div class="header-container"></div>
 		<div class="posts-container">
 			<div class="post-header" ${userPosts ? '' : 'style="display: none"'}" >
 				<img src="${posts[0].user.imageUrl}" class="post-header__user-image">
-				<p class="post-header__user-name"  style="font-size: 24px;">${posts[0].user.name}</p>
+				<p class="post-header__user-name" style="font-size: 24px;">${posts[0].user.name}</p>
 			</div >
 			<ul class="posts">
 				${postHtml}
 			</ul>
 		</div>
+		<div class="scrollToTop" id="scrollToTop"></div>
 	</div> `;
 	appEl.innerHTML = appHtml;
+
+	scrollToTop.hidden = true;
 
 	renderHeaderComponent({
 		element: document.querySelector(".header-container"),
@@ -101,5 +104,16 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 				})
 		})
 	}
+
+	// кнопка вверх
+	scrollToTop.onclick = function () {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth"
+		});
+	};
+	window.addEventListener('scroll', function () {
+		scrollToTop.hidden = (pageYOffset < document.documentElement.clientHeight);
+	});
 
 }
