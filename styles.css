@@ -94,6 +94,12 @@
 	height: 100%;
 	max-width: 500px;
 	object-fit: cover;
+	cursor: pointer;
+	transition: transform 0.3s;
+}
+
+.post-image:active {
+	transform: scale(1.7);
 }
 
 .post-likes {
