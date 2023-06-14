@@ -5,9 +5,12 @@ const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
 // Получение списка постов
-export function getPosts() {
+export function getPosts({ token }) {
 	return fetch(postsHost, {
 		method: "GET",
+		headers: {
+			Authorization: token,
+		},
 	})
 		.then((response) => {
 			return response.json();
@@ -18,9 +21,12 @@ export function getPosts() {
 }
 
 // Получение списка постов конкретного пользователя
-export function getUserPosts({ id }) {
+export function getUserPosts({ token, id }) {
 	return fetch(postsHost + "/user-posts/" + id, {
 		method: "GET",
+		headers: {
+			Authorization: token,
+		},
 	})
 		.then((response) => {
 			return response.json();
