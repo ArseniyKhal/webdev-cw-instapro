@@ -221,6 +221,10 @@
 	transition: transform 0.3s;
 }
 
+.go-top--show {
+	display: block;
+}
+
 .scrollToTop:hover {
 	transform: scale(1.1);
 }

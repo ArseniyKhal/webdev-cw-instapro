@@ -94,9 +94,23 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 		})
 	}
 
-	if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
-		initScrollToTop();
-	}
+	// кнопка вверх
+	const goTopBtn = document.querySelector(".scrollToTop");
+	// обработчик на скролл окна
+	window.addEventListener("scroll", function () {
+		if (window.pageYOffset > document.documentElement.clientHeight) {
+			goTopBtn.classList.add("go-top--show");
+		} else {
+			goTopBtn.classList.remove("go-top--show");
+		}
+	});
+	// обработчик на нажатии
+	goTopBtn.addEventListener("click", function () {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth"
+		});
+	});
 
 }
 
@@ -118,17 +132,4 @@ const toggleUserLike = ({ postId }) => {
 				renderApp();
 			})
 	}
-}
-
-// кнопка вверх
-const initScrollToTop = () => {
-	window.addEventListener('scroll', function () {
-		scrollToTop.hidden = (pageYOffset < document.documentElement.clientHeight);
-	});
-	scrollToTop.onclick = function () {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth"
-		});
-	};
 }
