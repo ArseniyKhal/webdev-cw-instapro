@@ -1,6 +1,6 @@
 import { USER_POSTS_PAGE, POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken, user } from "../index.js";
+import { posts, goToPage, getToken, user, renderApp } from "../index.js";
 import { deletePosts, likePosts, dislikePosts } from "../api.js";
 import { formatDistanceToNow } from "date-fns";
 
@@ -72,23 +72,12 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 	for (let likeEl of appEl.querySelectorAll(".like-button")) {
 		likeEl.addEventListener("click", (event) => {
 			event.stopPropagation();
-			if (posts[likeEl.dataset.index].isLiked) {
-				dislikePosts({ token: getToken(), id: likeEl.dataset.postId })
-					.then(() => {
-						return goToPage(POSTS_PAGE);
-					})
-					.catch(() => {
-						alert("Пожалуйста, авторизуйтесь");
-					});
-			} else {
-				likePosts({ token: getToken(), id: likeEl.dataset.postId })
-					.then(() => {
-						return goToPage(POSTS_PAGE);
-					})
-					.catch(() => {
-						alert("Пожалуйста, авторизуйтесь");
-					});
+			if (!user) {
+				alert('Пожалуйста, авторизуйтесь');
+				return;
 			}
+			const postId = likeEl.dataset.postId
+			toggleUserLike({ postId });
 		});
 	}
 
@@ -116,4 +105,24 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 		scrollToTop.hidden = (pageYOffset < document.documentElement.clientHeight);
 	});
 
+}
+
+// функция лайка/дизлайка
+const toggleUserLike = ({ postId }) => {
+	const index = posts.findIndex((post) => post.id === postId);
+	if (posts[index].isLiked) {
+		dislikePosts({ token: getToken(), id: postId })
+			.then((updatedPost) => {
+				posts[index].likes = updatedPost.post.likes;
+				posts[index].isLiked = false;
+				renderApp();
+			})
+	} else {
+		likePosts({ token: getToken(), id: postId })
+			.then((updatedPost) => {
+				posts[index].likes = updatedPost.post.likes;
+				posts[index].isLiked = true;
+				renderApp();
+			})
+	}
 }
