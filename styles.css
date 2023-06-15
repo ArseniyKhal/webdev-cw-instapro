@@ -52,8 +52,10 @@
 }
 
 .logout-button {
-	width: 130px;
-	text-align: right;
+	width: 70px;
+	text-align: center;
+	border: 2px solid #696969;
+	border-radius: 8px;
 }
 
 .posts {
@@ -210,19 +212,18 @@
 }
 
 .scrollToTop {
-	background-image: url('./img/up-arrow_icon-icons.com_71060.png');
-	background-size: contain;
-	height: 30px;
-	width: 30px;
 	position: fixed;
+	display: block;
+	opacity: 0;
 	top: 90vh;
-	right: 50px;
+	right: -50px;
 	cursor: pointer;
-	transition: transform 0.3s;
+	transition: all 0.5s ease;
 }
 
 .go-top--show {
-	display: block;
+	right: 50px;
+	opacity: 1;
 }
 
 .scrollToTop:hover {
