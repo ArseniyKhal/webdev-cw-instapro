@@ -64,7 +64,8 @@
 	margin: 0;
 }
 
-.post-header {
+.post-header,
+.post-user-header {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -72,9 +73,21 @@
 	cursor: pointer;
 }
 
+.post-user-header {
+	cursor: inherit;
+}
+
 .post-header__user-image {
 	width: 40px;
 	height: 40px;
+	object-fit: cover;
+	border-radius: 40px;
+	margin-right: 10px;
+}
+
+.post-user-header__user-image {
+	max-width: 150px;
+	max-height: 150px;
 	object-fit: cover;
 	border-radius: 40px;
 	margin-right: 10px;

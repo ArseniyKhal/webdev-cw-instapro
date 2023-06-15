@@ -41,9 +41,9 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 	<div class="page-container">
 		<div class="header-container"></div>
 		<div class="posts-container">
-			<div class="post-header" ${userPosts ? '' : 'style="display: none"'}" >
-				<img src="${posts[0].user.imageUrl}" class="post-header__user-image">
-				<p class="post-header__user-name" style="font-size: 24px;">${posts[0].user.name}</p>
+			<div class="post-user-header" ${userPosts ? '' : 'style="display: none"'}" >
+				<img src="${posts[0].user.imageUrl}" class="post-user-header__user-image">
+				<p class="post-user-header__user-name" style="font-size: 30px;">${posts[0].user.name}</p>
 			</div >
 			<ul class="posts">
 				${postHtml}
@@ -94,16 +94,9 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 		})
 	}
 
-	// кнопка вверх
-	scrollToTop.onclick = function () {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth"
-		});
-	};
-	window.addEventListener('scroll', function () {
-		scrollToTop.hidden = (pageYOffset < document.documentElement.clientHeight);
-	});
+	if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
+		initScrollToTop();
+	}
 
 }
 
@@ -125,4 +118,17 @@ const toggleUserLike = ({ postId }) => {
 				renderApp();
 			})
 	}
+}
+
+// кнопка вверх
+const initScrollToTop = () => {
+	window.addEventListener('scroll', function () {
+		scrollToTop.hidden = (pageYOffset < document.documentElement.clientHeight);
+	});
+	scrollToTop.onclick = function () {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth"
+		});
+	};
 }
